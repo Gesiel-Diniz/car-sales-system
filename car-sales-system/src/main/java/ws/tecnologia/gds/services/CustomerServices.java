@@ -1,11 +1,15 @@
 package ws.tecnologia.gds.services;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ws.tecnologia.gds.controllers.CustomerController;
 import ws.tecnologia.gds.data.v1.CustomerValueObject;
 import ws.tecnologia.gds.exceptions.ResourceNotFoundException;
 import ws.tecnologia.gds.mapper.DozerMapper;
@@ -25,9 +29,13 @@ public class CustomerServices {
 		
 		Customer entity = repository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No records found for this ID!"));
 		
+		CustomerValueObject custommer = DozerMapper.parseObject(entity, CustomerValueObject.class);
+
+		custommer.add(linkTo(methodOn(CustomerController.class).findById(id)).withSelfRel());
+		
 		logger.info("List one customer!");
 		
-		return DozerMapper.parseObject(entity, CustomerValueObject.class);
+		return custommer;
 		
 	}
 	
@@ -36,6 +44,10 @@ public class CustomerServices {
 		logger.info("List all customers!");
 		
 		List<CustomerValueObject> customers = DozerMapper.parselistObjects(repository.findAll(), CustomerValueObject.class);
+		
+		customers.stream().forEach(
+				custom -> custom.add(linkTo(methodOn(CustomerController.class).findById(custom.getId())).withSelfRel())
+		);
 
 		return customers;
 	}
@@ -44,9 +56,13 @@ public class CustomerServices {
 		
 		Customer entity = DozerMapper.parseObject(customer, Customer.class);
 		
+		CustomerValueObject custom = DozerMapper.parseObject(repository.save(entity), CustomerValueObject.class);
+		
+		custom.add(linkTo(methodOn(CustomerController.class).findById(custom.getId())).withSelfRel());
+		
 		logger.info("Created one customer!");
 		
-		return DozerMapper.parseObject(repository.save(entity), CustomerValueObject.class);
+		return custom;
 
 	}
 	
@@ -57,16 +73,19 @@ public class CustomerServices {
 		
 		Customer entity = DozerMapper.parseObject(customer, Customer.class);
 		
+		CustomerValueObject custom = DozerMapper.parseObject(repository.save(entity), CustomerValueObject.class);
+		
+		custom.add(linkTo(methodOn(CustomerController.class).findById(custom.getId())).withSelfRel());
+		
 		logger.info("Update one customer!");
 		
-		return DozerMapper.parseObject(repository.save(entity), CustomerValueObject.class);
+		return custom;
 
 	}
 	
 	public void delete(Long id) {
 		
 		repository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No records found for this ID!"));
-
 		repository.deleteById(id);
 		
 	}

@@ -4,12 +4,14 @@ package ws.tecnologia.gds.data.v1;
 
 import java.io.Serializable;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.dozermapper.core.Mapping;
 
 @JsonPropertyOrder({"id", "name", "rg", "cpf", "street", "number", "neighborhood", "zip_code", "city", "state"})
-public class CustomerValueObject implements Serializable {
+public class CustomerValueObject extends RepresentationModel<CustomerValueObject> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
