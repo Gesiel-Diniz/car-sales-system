@@ -1,7 +1,6 @@
 package ws.tecnologia.gds.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ws.tecnologia.gds.models.Customer;
+import ws.tecnologia.gds.data.v1.CustomerValueObject;
 import ws.tecnologia.gds.services.CustomerServices;
 
 
@@ -26,22 +25,22 @@ public class CustomerController {
 	private CustomerServices service;
 	
 	@GetMapping(value = "/{id}")
-	public Optional<Customer> findById(@PathVariable(value = "id") Long id) {
+	public CustomerValueObject findById(@PathVariable(value = "id") Long id) {
 		return service.findById(id);	
 	}
 	
 	@GetMapping
-	public List<Customer> findAll() {
+	public List<CustomerValueObject> findAll() {
 		return service.findAll();	
 	}
 	
 	@PostMapping
-	public Customer create(@RequestBody Customer customer) {
-		return service.create(customer);	
+	public CustomerValueObject create(@RequestBody CustomerValueObject customer) {
+		return service.create(customer);
 	}
 	
 	@PutMapping
-	public Customer update(@RequestBody Customer customer) {
+	public CustomerValueObject update(@RequestBody CustomerValueObject customer) {
 		return service.update(customer);	
 	}
 	

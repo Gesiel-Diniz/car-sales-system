@@ -1,53 +1,43 @@
-package ws.tecnologia.gds.models;
+package ws.tecnologia.gds.data.v1;
+
+
 
 import java.io.Serializable;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.github.dozermapper.core.Mapping;
 
+@JsonPropertyOrder({"id", "name", "rg", "cpf", "street", "number", "neighborhood", "zip_code", "city", "state"})
+public class CustomerValueObject implements Serializable {
 
-@Entity
-@Table(name = "customers")
-public class Customer implements Serializable {
-	
 	private static final long serialVersionUID = 1L;
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Mapping("id")
+	@JsonProperty("id")
 	private Long id;
 	
-	@Column(nullable = false, length = 100)
 	private String name;
-	
-	@Column(nullable = false, length = 15)
 	private String rg;
-	
-	@Column(nullable = false, length = 20)
 	private String cpf;
 	
-	@Column(name = "street_address", nullable = false, length = 100)
+	@JsonProperty("street")
 	private String streetAddress;
 	
-	@Column(name = "number_address", nullable = false, length = 10)
+	@JsonProperty("number")
 	private String numberAddress;
-	
-	@Column(name = "neighborhood", nullable = false, length = 100)
 	private String neighborhood;
 	
-	@Column(name = "zip_code_address", nullable = false, length = 10)
+	@JsonProperty("zip_code")
 	private String zipCodeAddress;
 	
-	@Column(name = "city_address", nullable = false, length = 100)
+	@JsonProperty("city")
 	private String cityAddress;
 	
-	@Column(name = "state_address", nullable = false, length = 100)
+	@JsonProperty("state")
 	private String stateAddress;
 	
-	public Customer() {}
+	public CustomerValueObject() {}
 
 	public Long getId() {
 		return id;
