@@ -24,27 +24,27 @@ public class CustomerController {
 	@Autowired
 	private CustomerServices service;
 	
-	@GetMapping(value = "/{id}")
+	@GetMapping(value = "/{id}", produces = {"application/json", "application/xml"})
 	public CustomerValueObject findById(@PathVariable(value = "id") Long id) {
 		return service.findById(id);	
 	}
 	
-	@GetMapping
+	@GetMapping(produces = {"application/json", "application/xml"})
 	public List<CustomerValueObject> findAll() {
 		return service.findAll();	
 	}
 	
-	@PostMapping
+	@PostMapping(produces = {"application/json", "application/xml"})
 	public CustomerValueObject create(@RequestBody CustomerValueObject customer) {
 		return service.create(customer);
 	}
 	
-	@PutMapping
+	@PutMapping(produces = {"application/json", "application/xml"})
 	public CustomerValueObject update(@RequestBody CustomerValueObject customer) {
 		return service.update(customer);	
 	}
 	
-	@DeleteMapping(value = "/{id}")
+	@DeleteMapping(value = "/{id}", produces = {"application/json", "application/xml"})
 	public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
 		service.delete(id);	
 		return ResponseEntity.noContent().build();
